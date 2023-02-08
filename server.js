@@ -21,6 +21,10 @@ app.use("/api/products", productsRoute)
 app.use("/api/users/", userRoute)
 app.use("/api/orders/", orderRoute)
 
+app.get("/", (req,res)=>{
+    res.send("Home page")
+})
+
 const PORT = process.env.PORT || 5000
 
 mongoose
