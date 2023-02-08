@@ -2,7 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
 require("dotenv").config()
-const dbConfig = require("./config/dbConfig")
+const mongoose = require("mongoose")
 const productsRoute = require("./routes/productsRoute")
 const userRoute = require("./routes/userRoute")
 const orderRoute = require("./routes/orderRoute")
@@ -21,9 +21,19 @@ app.use("/api/products", productsRoute)
 app.use("/api/users/", userRoute)
 app.use("/api/orders/", orderRoute)
 
-const port = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000
 
-app.listen(port, () => console.log(`Server running on port ${port}`))
+mongoose
+    .connect(process.env.MONGO_URI, {useUnifiedTopology : true, useNewUrlParser : true})
+    .then(()=>{
+        app.listen(PORT, ()=>{
+            console.log(`Server running on port ${PORT}`)
+        })
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+
 
 
 // mongodb+srv://MERN-Ecommerce-User:MERN-Ecommerce-User @matiasdemarchicluster.3jeamsb.mongodb.net/MERN-Ecommerce?retryWrites=true&w=majority
